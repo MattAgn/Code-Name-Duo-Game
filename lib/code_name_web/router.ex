@@ -21,6 +21,7 @@ defmodule CodeNameWeb.Router do
     live "/home", HomeLive
     live "/board", BoardLive
     live "/rooms", RoomsLive
+    live "/waiting-room", WaitingRoomLive
   end
 
   # Other scopes may use custom stacks.
