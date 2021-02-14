@@ -6,7 +6,10 @@
     <%= for i <- 0..4 do %>
       <div class="board-row">
         <%= for j <- 0..4 do %>
-          <button id="card"><%= Enum.at(@words, j+i*5) %></button>
+          <button id="card" phx-click="card-click" phx-value-card-index="<%= j+i*5 %>" class="
+            <%= if Enum.at(@current_results, j+i*5) === "assassin", do: "black" %>
+            <%= if Enum.at(@current_results, j+i*5) === "code_name", do: "green" %>
+          "><%= Enum.at(@words, j+i*5) %></button>
         <% end %>
       </div>
     <% end %>

@@ -36,11 +36,24 @@ defmodule CodeNameWeb.BoardLive do
         player_1: player_1,
         player_1_key_map: player_1_key_map,
         player_2_key_map: player_2_key_map,
+        current_results: Enum.to_list(0..24) |> Enum.map(fn _ -> :hidden end),
         words: words
       )
 
     if connected?(socket), do: Rooms.subscribe(room_id)
 
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event("card-click", %{"card-index" => card_index}, socket) do
+    result = get_my_partner_key_map(socket.assigns) |> Enum.at(String.to_integer(card_index))
+
+    current_results =
+      Enum.to_list(socket.assigns.current_results)
+      |> List.replace_at(String.to_integer(card_index), result)
+
+    socket = assign(socket, current_results: current_results)
     {:noreply, socket}
   end
 
