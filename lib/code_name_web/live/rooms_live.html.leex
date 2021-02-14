@@ -2,4 +2,13 @@
 <button phx-click="create-room">Create new room</button>
 
 <h2>Join waiting player</h2>
-<button>Join Room 1</button>
+
+<form phx-submit="room-choice">
+  <input type="text" name="room_id" value="<%= @room_id %>"
+          placeholder="Enter token here"
+          autofocus autocomplete="off" />
+
+  <button type="submit">
+    Validate
+  </button>
+</form>
