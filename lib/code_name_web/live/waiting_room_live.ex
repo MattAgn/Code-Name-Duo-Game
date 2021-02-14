@@ -1,6 +1,7 @@
 defmodule CodeNameWeb.WaitingRoomLive do
   use CodeNameWeb, :live_view
   alias CodeName.Rooms
+  alias CodeName.Game
 
   @impl true
   def mount(_params, _session, socket) do
@@ -35,9 +36,51 @@ defmodule CodeNameWeb.WaitingRoomLive do
         :all_players,
         fn all_players ->
           if new_player_nickname != socket.assigns.player_nickname,
-            do: [new_player_nickname | all_players]
+            do: [all_players | new_player_nickname]
         end
       )
+
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_info(
+        {:game_started, board: board, player_1: player_1, player_2: player_2},
+        socket
+      ) do
+    socket =
+      assign(socket,
+        board: board,
+        player_1: player_1,
+        player_2: player_2
+      )
+
+    socket =
+      push_redirect(socket,
+        to:
+          Routes.live_path(
+            socket,
+            CodeNameWeb.BoardLive,
+            player_nickname: socket.assigns.player_nickname,
+            room_id: socket.assigns.room_id
+          )
+      )
+
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event("start-game", _, socket) do
+    board = Game.generate_board()
+
+    Phoenix.PubSub.broadcast(
+      CodeName.PubSub,
+      socket.assigns.room_id,
+      {:game_started,
+       board: board,
+       player_1: Enum.at(socket.assigns.all_players, 0),
+       player_2: Enum.at(socket.assigns.all_players, 1)}
+    )
 
     {:noreply, socket}
   end
