@@ -1,0 +1,15 @@
+<div id="root">
+  <h1>Welcome to Code Name Duo!</h1>
+
+  <h2>Enter your nickname</h2>
+      <form phx-submit="player-nickname-choice">
+        <input type="text" name="player_nickname" value="<%= @player_nickname %>"
+               placeholder="Mattdu91"
+               autofocus autocomplete="off" />
+
+        <button type="submit">
+          Validate
+        </button>
+      </form>
+
+</div>

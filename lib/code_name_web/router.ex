@@ -18,6 +18,7 @@ defmodule CodeNameWeb.Router do
     pipe_through :browser
 
     live "/", PageLive, :index
+    live "/home", HomeLive
   end
 
   # Other scopes may use custom stacks.
