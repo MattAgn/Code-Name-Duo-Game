@@ -34,12 +34,30 @@ defmodule CodeName.Game do
     player_1_code_name_cards = common_code_names ++ player_1_unique_code_names
     player_2_code_name_cards = common_code_names ++ player_2_unique_code_names
 
-    [
-      player_1_assasins_cards: player_1_assasins_cards,
-      player_1_code_name_cards: player_1_code_name_cards,
-      player_2_assasins_cards: player_2_assasins_cards,
-      player_2_code_name_cards: player_2_code_name_cards,
+    player_1_key_map =
+      Enum.to_list(0..24)
+      |> Enum.map(fn x ->
+        cond do
+          Enum.member?(player_1_assasins_cards, x) -> :assassin
+          Enum.member?(player_1_code_name_cards, x) -> :code_name
+          true -> :neutral
+        end
+      end)
+
+    player_2_key_map =
+      Enum.to_list(0..24)
+      |> Enum.map(fn x ->
+        cond do
+          Enum.member?(player_2_assasins_cards, x) -> :assassin
+          Enum.member?(player_2_code_name_cards, x) -> :code_name
+          true -> :neutral
+        end
+      end)
+
+    %{
+      player_1_key_map: player_1_key_map,
+      player_2_key_map: player_2_key_map,
       words: words
-    ]
+    }
   end
 end

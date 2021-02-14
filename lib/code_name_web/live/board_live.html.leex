@@ -1,1 +1,37 @@
 <h1>Board</h1>
+
+
+<div class="board">
+  <div class="board-cards">
+    <%= for i <- 0..4 do %>
+      <div class="board-row">
+        <%= for j <- 0..4 do %>
+          <button id="card"><%= Enum.at(@words, j+i*5) %></button>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+
+  <div>
+    <%= for i <- 0..4 do %>
+      <div class="key-map-row">
+        <%= for j <- 0..4 do %>
+          <div class="key-map-square
+            <%= if Enum.at(get_my_key_map(assigns), j+i*5) === "assassin", do: "black" %>
+            <%= if Enum.at(get_my_key_map(assigns), j+i*5) === "code_name", do: "green" %>
+            ">
+            <%= if Enum.at(get_my_key_map(assigns), j+i*5) === "assassin", do: "X" %>
+            <%= if Enum.at(get_my_key_map(assigns), j+i*5) === "code_name", do: "O" %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<br/>
+<br/>
+<br/>
+
+<button>Finish round</button>

@@ -1,0 +1,44 @@
+.board {
+  display: flex;
+  justify-content: space-between;
+}
+
+.board-cards {
+  flex:1;
+  margin-right: 8vw;
+}
+
+.board-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+#card {
+  width: 13vw;
+  height: 10vh;
+}
+
+.key-map-row {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.key-map-square {
+  height: 3vw;
+  width: 3vw;
+  background-color: grey;
+  border-width: 1px;
+  border-color: black;
+  border-style: solid;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+.black {
+  background-color: black;
+}
+
+.green {
+  background-color: green;
+}

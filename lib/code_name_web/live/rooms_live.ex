@@ -1,8 +1,6 @@
 defmodule CodeNameWeb.RoomsLive do
   use CodeNameWeb, :live_view
   alias CodeName.Rooms
-  alias CodeName.Rooms.Room
-  alias CodeName.Repo
 
   @impl true
   def mount(_params, _session, socket) do

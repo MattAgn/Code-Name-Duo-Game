@@ -62,7 +62,10 @@ defmodule CodeNameWeb.WaitingRoomLive do
             socket,
             CodeNameWeb.BoardLive,
             player_nickname: socket.assigns.player_nickname,
-            room_id: socket.assigns.room_id
+            room_id: socket.assigns.room_id,
+            board: board,
+            player_1: player_1,
+            player_2: player_2
           )
       )
 
