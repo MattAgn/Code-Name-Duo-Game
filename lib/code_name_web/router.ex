@@ -19,6 +19,7 @@ defmodule CodeNameWeb.Router do
 
     live "/", PageLive, :index
     live "/home", HomeLive
+    live "/board", BoardLive
   end
 
   # Other scopes may use custom stacks.
