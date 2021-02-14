@@ -7,12 +7,31 @@ defmodule CodeNameWeb.RoomsLive do
   end
 
   @impl true
+  def handle_params(%{"player_nickname" => player_nickname}, _url, socket) do
+    socket =
+      assign(socket,
+        player_nickname: player_nickname
+      )
+
+    {:noreply, socket}
+  end
+
+  @impl true
   def handle_event("create-room", _, socket) do
     room_token =
       RandomStringGenerator.generate("LLLllllddddd")
       |> RandomStringGenerator.shuffle()
 
-    socket = assign(socket, room_token: room_token)
+    socket =
+      push_redirect(socket,
+        to:
+          Routes.live_path(
+            socket,
+            CodeNameWeb.WaitingRoomLive,
+            player_nickname: socket.assigns.player_nickname,
+            room_token: room_token
+          )
+      )
 
     {:noreply, socket}
   end
