@@ -1,6 +1,7 @@
 .board {
   display: flex;
   justify-content: space-between;
+  margin-top: 10vh;
 }
 
 .board-cards {
@@ -61,4 +62,12 @@
 p {
   margin: 0;
   padding: 0;
+}
+
+.lost-row {
+  display: flex;
+}
+
+.lost-row > button {
+  margin-left: 10vw;
 }

@@ -35,7 +35,8 @@ defmodule CodeNameWeb.BoardLive do
         player_2_key_map: player_2_key_map,
         current_results: Enum.to_list(0..24) |> Enum.map(fn _ -> "hidden" end),
         words: words,
-        round: 0
+        round: 0,
+        game_status: "ongoing"
       )
 
     if connected?(socket), do: Rooms.subscribe(room_id)
@@ -59,6 +60,14 @@ defmodule CodeNameWeb.BoardLive do
       Enum.to_list(socket.assigns.current_results)
       |> List.replace_at(String.to_integer(card_index), result)
 
+    if result === "assassin" do
+      Phoenix.PubSub.broadcast(
+        CodeName.PubSub,
+        socket.assigns.room_id,
+        {:game_lost}
+      )
+    end
+
     if String.starts_with?(result, "neutral") do
       {:noreply,
        assign(socket, current_results: current_results, round: socket.assigns.round + 1)}
@@ -73,6 +82,21 @@ defmodule CodeNameWeb.BoardLive do
         socket
       ) do
     socket = assign(socket, round: socket.assigns.round + 1)
+
+    if socket.assigns.round == 10 do
+      Phoenix.PubSub.broadcast(
+        CodeName.PubSub,
+        socket.assigns.room_id,
+        {:game_lost}
+      )
+    end
+
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_info({:game_lost}, socket) do
+    socket = assign(socket, game_status: "lost")
 
     {:noreply, socket}
   end

@@ -1,5 +1,9 @@
-<h1>Board</h1>
-
+<%= if (@game_status === "lost") do %>
+  <div class="lost-row">
+    <h1>Vous avez perdu :'(</h1>
+    <button>Restart game</button>
+  </div>
+<% end %>
 
 <div class="board">
   <div class="board-cards">
@@ -37,7 +41,10 @@
 <br/>
 <br/>
 
-<div class="round-row">
-  <p>Round number: <%= @round %> / 9</p>
-  <button phx-click="finish-round">Finish round</button>
-</div>
+
+<%= if (!@game_status === "lost") do %>
+  <div class="round-row">
+    <p>Round number: <%= @round %> / 9</p>
+    <button phx-click="finish-round">Finish round</button>
+  </div>
+<% end %>
