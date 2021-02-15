@@ -34,7 +34,8 @@ defmodule CodeNameWeb.BoardLive do
         player_1_key_map: player_1_key_map,
         player_2_key_map: player_2_key_map,
         current_results: Enum.to_list(0..24) |> Enum.map(fn _ -> "hidden" end),
-        words: words
+        words: words,
+        round: 0
       )
 
     if connected?(socket), do: Rooms.subscribe(room_id)
@@ -58,7 +59,20 @@ defmodule CodeNameWeb.BoardLive do
       Enum.to_list(socket.assigns.current_results)
       |> List.replace_at(String.to_integer(card_index), result)
 
-    socket = assign(socket, current_results: current_results)
+    if String.starts_with?(result, "neutral") do
+      {:noreply,
+       assign(socket, current_results: current_results, round: socket.assigns.round + 1)}
+    else
+      {:noreply, assign(socket, current_results: current_results)}
+    end
+  end
+
+  @impl true
+  def handle_info(
+        {:round_finish_button_click, player: player_nickname},
+        socket
+      ) do
+    socket = assign(socket, round: socket.assigns.round + 1)
 
     {:noreply, socket}
   end
@@ -69,6 +83,17 @@ defmodule CodeNameWeb.BoardLive do
       CodeName.PubSub,
       socket.assigns.room_id,
       {:card_click, player: socket.assigns.player_nickname, card_index: card_index}
+    )
+
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event("finish-round", _, socket) do
+    Phoenix.PubSub.broadcast(
+      CodeName.PubSub,
+      socket.assigns.room_id,
+      {:round_finish_button_click, player: socket.assigns.player_nickname}
     )
 
     {:noreply, socket}
