@@ -34,3 +34,9 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
   "url": "postgresql://8e8ea7e9-0cf8-4165-bcf4-658b7724c34f-user:pw-c0ca9483-3988-46aa-821f-a42442247521@postgres-free-tier-v2020.gigalixir.com:5432/8e8ea7e9-0cf8-4165-bcf4-658b7724c34f",
   "username": "8e8ea7e9-0cf8-4165-bcf4-658b7724c34f-user"
 }
+
+
+## Setup gigaelixir
+
+https://gigalixir.readthedocs.io/en/latest/getting-started-guide.html
+https://www.mitchellhanberg.com/how-to-deploy-a-phoenix-app-to-gigalixir-in-20-minutes/
