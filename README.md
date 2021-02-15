@@ -18,3 +18,19 @@ Ready to run in production? Please [check our deployment guides](https://hexdocs
   * Docs: https://hexdocs.pm/phoenix
   * Forum: https://elixirforum.com/c/phoenix-forum
   * Source: https://github.com/phoenixframework/phoenix
+
+
+## Saved db config (PRIVATE)
+
+{
+  "app_name": "code-name-duo",
+  "database": "8e8ea7e9-0cf8-4165-bcf4-658b7724c34f",
+  "host": "postgres-free-tier-v2020.gigalixir.com",
+  "id": "8e8ea7e9-0cf8-4165-bcf4-658b7724c34f",
+  "password": "pw-c0ca9483-3988-46aa-821f-a42442247521",
+  "port": 5432,
+  "state": "AVAILABLE",
+  "tier": "FREE",
+  "url": "postgresql://8e8ea7e9-0cf8-4165-bcf4-658b7724c34f-user:pw-c0ca9483-3988-46aa-821f-a42442247521@postgres-free-tier-v2020.gigalixir.com:5432/8e8ea7e9-0cf8-4165-bcf4-658b7724c34f",
+  "username": "8e8ea7e9-0cf8-4165-bcf4-658b7724c34f-user"
+}
