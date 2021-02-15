@@ -68,6 +68,14 @@ defmodule CodeNameWeb.BoardLive do
       )
     end
 
+    if Enum.count(Enum.filter(current_results, fn x -> x === "code_name" end)) == 15 do
+      Phoenix.PubSub.broadcast(
+        CodeName.PubSub,
+        socket.assigns.room_id,
+        {:game_won}
+      )
+    end
+
     if String.starts_with?(result, "neutral") do
       {:noreply,
        assign(socket, current_results: current_results, round: socket.assigns.round + 1)}
@@ -97,6 +105,13 @@ defmodule CodeNameWeb.BoardLive do
   @impl true
   def handle_info({:game_lost}, socket) do
     socket = assign(socket, game_status: "lost")
+
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_info({:game_won}, socket) do
+    socket = assign(socket, game_status: "won")
 
     {:noreply, socket}
   end

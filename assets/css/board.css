@@ -64,10 +64,10 @@ p {
   padding: 0;
 }
 
-.lost-row {
+.game-end-block {
   display: flex;
 }
 
-.lost-row > button {
+.game-end-block > button {
   margin-left: 10vw;
 }
