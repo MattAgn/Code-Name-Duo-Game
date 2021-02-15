@@ -3,6 +3,14 @@
 @import "./board.css";
 @import "../node_modules/nprogress/nprogress.css";
 
+html {
+  background-color: #131516;
+}
+
+h1, h2, h3, p, span, div, input {
+  color: white;
+}
+
 /* LiveView specific classes for your customizations */
 .phx-no-feedback.invalid-feedback,
 .phx-no-feedback .invalid-feedback {

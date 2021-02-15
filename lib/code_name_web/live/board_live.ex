@@ -93,4 +93,20 @@ defmodule CodeNameWeb.BoardLive do
       socket_assigns.player_1_key_map
     end
   end
+
+  defp get_card_color_class(current_results, card_index) do
+    cond do
+      Enum.at(current_results, card_index) === "assassin" -> "black"
+      Enum.at(current_results, card_index) === "code_name" -> "green"
+      true -> "beige"
+    end
+  end
+
+  defp get_key_map_square_color_class(socket_assigns, card_index) do
+    cond do
+      Enum.at(get_my_key_map(socket_assigns), card_index) === "assassin" -> "black"
+      Enum.at(get_my_key_map(socket_assigns), card_index) === "code_name" -> "green"
+      true -> "grey"
+    end
+  end
 end

@@ -13,9 +13,10 @@
   justify-content: space-between;
 }
 
-#card {
+#card, #card:focus, #card:hover {
   width: 13vw;
   height: 10vh;
+  border-width: 0;
 }
 
 .key-map-row {
@@ -36,9 +37,17 @@
 }
 
 .black {
-  background-color: black;
+  background-color: black !important;
 }
 
 .green {
-  background-color: green;
+  background-color: green !important;
+}
+
+.beige {
+  background-color: #BCA78B !important;
+}
+
+.grey {
+  background-color: grey;
 }
