@@ -33,7 +33,7 @@ defmodule CodeNameWeb.BoardLive do
         player_1: player_1,
         player_1_key_map: player_1_key_map,
         player_2_key_map: player_2_key_map,
-        current_results: Enum.to_list(0..24) |> Enum.map(fn _ -> :hidden end),
+        current_results: Enum.to_list(0..24) |> Enum.map(fn _ -> "hidden" end),
         words: words
       )
 
@@ -47,8 +47,12 @@ defmodule CodeNameWeb.BoardLive do
         {:card_click, player: player_nickname, card_index: card_index},
         socket
       ) do
+    prev_result = Enum.at(socket.assigns.current_results, String.to_integer(card_index))
+
     result =
-      get_key_map_for_player(socket, player_nickname) |> Enum.at(String.to_integer(card_index))
+      get_key_map_for_player(socket, player_nickname)
+      |> Enum.at(String.to_integer(card_index))
+      |> handle_neutral_result(prev_result, player_nickname)
 
     current_results =
       Enum.to_list(socket.assigns.current_results)
@@ -68,6 +72,14 @@ defmodule CodeNameWeb.BoardLive do
     )
 
     {:noreply, socket}
+  end
+
+  defp handle_neutral_result(result, previous_result, player_nickname) do
+    cond do
+      result === "neutral" && String.starts_with?(previous_result, "neutral-") -> "neutral-all"
+      result === "neutral" -> "neutral-" <> player_nickname
+      true -> result
+    end
   end
 
   defp get_key_map_for_player(socket, player_nickname) do
@@ -107,6 +119,16 @@ defmodule CodeNameWeb.BoardLive do
       Enum.at(get_my_key_map(socket_assigns), card_index) === "assassin" -> "black"
       Enum.at(get_my_key_map(socket_assigns), card_index) === "code_name" -> "green"
       true -> "grey"
+    end
+  end
+
+  defp get_neutral_card_indicator(current_result, player_nickname) do
+    cond do
+      current_result === "neutral-" <> player_nickname -> "&nbsp;   &#5121;"
+      current_result === "neutral-all" -> "&nbsp;   &#5121; &#5123;"
+      # neutral for other player
+      String.starts_with?(current_result, "neutral-") -> "&nbsp;  &#5123;"
+      true -> ""
     end
   end
 end
