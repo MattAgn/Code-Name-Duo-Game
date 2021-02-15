@@ -12,19 +12,15 @@ defmodule CodeNameWeb.BoardLive do
         %{
           "player_nickname" => player_nickname,
           "room_id" => room_id,
-          "board" => board,
+          "player_1_key_map" => player_1_key_map,
+          "player_2_key_map" => player_2_key_map,
+          "words" => words,
           "player_1" => player_1,
           "player_2" => player_2
         },
         _url,
         socket
       ) do
-    %{
-      "player_1_key_map" => player_1_key_map,
-      "player_2_key_map" => player_2_key_map,
-      "words" => words
-    } = board
-
     socket =
       assign(socket,
         player_nickname: player_nickname,

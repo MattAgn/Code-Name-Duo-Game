@@ -45,12 +45,19 @@ defmodule CodeNameWeb.WaitingRoomLive do
 
   @impl true
   def handle_info(
-        {:game_started, board: board, player_1: player_1, player_2: player_2},
+        {:game_started,
+         player_1_key_map: player_1_key_map,
+         player_2_key_map: player_2_key_map,
+         words: words,
+         player_1: player_1,
+         player_2: player_2},
         socket
       ) do
     socket =
       assign(socket,
-        board: board,
+        player_1_key_map: player_1_key_map,
+        player_2_key_map: player_2_key_map,
+        words: words,
         player_1: player_1,
         player_2: player_2
       )
@@ -63,7 +70,9 @@ defmodule CodeNameWeb.WaitingRoomLive do
             CodeNameWeb.BoardLive,
             player_nickname: socket.assigns.player_nickname,
             room_id: socket.assigns.room_id,
-            board: board,
+            player_1_key_map: player_1_key_map,
+            player_2_key_map: player_2_key_map,
+            words: words,
             player_1: player_1,
             player_2: player_2
           )
@@ -74,13 +83,16 @@ defmodule CodeNameWeb.WaitingRoomLive do
 
   @impl true
   def handle_event("start-game", _, socket) do
-    board = Game.generate_board()
+    %{player_1_key_map: player_1_key_map, player_2_key_map: player_2_key_map, words: words} =
+      Game.generate_board()
 
     Phoenix.PubSub.broadcast(
       CodeName.PubSub,
       socket.assigns.room_id,
       {:game_started,
-       board: board,
+       player_1_key_map: player_1_key_map,
+       player_2_key_map: player_2_key_map,
+       words: words,
        player_1: Enum.at(socket.assigns.all_players, 0),
        player_2: Enum.at(socket.assigns.all_players, 1)}
     )
