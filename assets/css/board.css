@@ -51,3 +51,14 @@
 .grey {
   background-color: grey;
 }
+
+.round-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+}
