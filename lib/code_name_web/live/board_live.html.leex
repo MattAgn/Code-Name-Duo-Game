@@ -12,6 +12,10 @@
   </div>
 <% end %>
 
+<%= if (@game_status === "ongoing") do %>
+  <h3><%= get_round_indication(assigns) %></h3>
+<% end %>
+
 <div class="board">
   <div class="board-cards">
     <%= for i <- 0..4 do %>

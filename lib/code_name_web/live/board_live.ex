@@ -17,7 +17,8 @@ defmodule CodeNameWeb.BoardLive do
           "player_2_key_map" => player_2_key_map,
           "words" => words,
           "player_1" => player_1,
-          "player_2" => player_2
+          "player_2" => player_2,
+          "player_turn" => player_turn
         },
         _url,
         socket
@@ -33,7 +34,8 @@ defmodule CodeNameWeb.BoardLive do
         current_results: Enum.to_list(0..24) |> Enum.map(fn _ -> "hidden" end),
         words: words,
         round: 0,
-        game_status: "ongoing"
+        game_status: "ongoing",
+        player_turn: player_turn
       )
 
     if connected?(socket), do: Rooms.subscribe(room_id)
@@ -44,7 +46,17 @@ defmodule CodeNameWeb.BoardLive do
   ########### HANDLE_INFO ###############
   @impl true
   def handle_info({:round_finished, updated_results: updated_results}, socket) do
-    socket = assign(socket, round: socket.assigns.round + 1, current_results: updated_results)
+    player_turn =
+      if socket.assigns.player_turn === socket.assigns.player_1,
+        do: socket.assigns.player_2,
+        else: socket.assigns.player_1
+
+    socket =
+      assign(socket,
+        round: socket.assigns.round + 1,
+        current_results: updated_results,
+        player_turn: player_turn
+      )
 
     {:noreply, socket}
   end
@@ -168,6 +180,14 @@ defmodule CodeNameWeb.BoardLive do
       # neutral for other player
       String.starts_with?(current_result, "neutral-") -> "&nbsp;  &#5123;"
       true -> ""
+    end
+  end
+
+  defp get_round_indication(socket_assigns) do
+    if socket_assigns.player_nickname === socket_assigns.player_turn do
+      "Your turn to play"
+    else
+      "Waiting for other player to finish his round"
     end
   end
 end

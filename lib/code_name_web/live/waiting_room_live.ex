@@ -74,7 +74,8 @@ defmodule CodeNameWeb.WaitingRoomLive do
             player_2_key_map: player_2_key_map,
             words: words,
             player_1: player_1,
-            player_2: player_2
+            player_2: player_2,
+            player_turn: player_1
           )
       )
 
