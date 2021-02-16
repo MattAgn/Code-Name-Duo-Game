@@ -185,9 +185,9 @@ defmodule CodeNameWeb.BoardLive do
 
   defp get_round_indication(socket_assigns) do
     if is_my_turn(socket_assigns) do
-      "Your turn to play"
+      "&#128994; &nbsp; Your turn to play"
     else
-      "Waiting for other player to finish..."
+      "&#128308; &nbsp; Waiting for other player to finish..."
     end
   end
 

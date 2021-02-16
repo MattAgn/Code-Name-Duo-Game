@@ -13,7 +13,7 @@
 <% end %>
 
 <%= if (@game_status === "ongoing") do %>
-  <h3><%= get_round_indication(assigns) %></h3>
+  <h3><%= raw(get_round_indication(assigns)) %></h3>
 <% end %>
 
 <div class="board">
