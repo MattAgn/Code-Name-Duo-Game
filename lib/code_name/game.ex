@@ -61,39 +61,52 @@ defmodule CodeName.Game do
     }
   end
 
+  def is_game_lost_on_round_finished_click(round) do
+    round >= 9
+  end
+
+  def is_game_lost_on_card_click(card_result, round) do
+    card_result === "assassin" || (String.starts_with?(card_result, "neutral") && round == 9)
+  end
+
   def is_game_won(current_results) do
     Enum.count(Enum.filter(current_results, fn x -> x === "code_name" end)) == 15
   end
 
-  def send_game_won_event(room_id) do
+  def is_code_name_discovered(card_result) do
+    card_result === "code_name"
+  end
+
+  ########## EVENTS ###############
+  def send_game_won_event(room_id, updated_results) do
     Phoenix.PubSub.broadcast(
       CodeName.PubSub,
       room_id,
-      {:game_won}
+      {:game_won, updated_results: updated_results}
     )
   end
 
-  def send_game_lost_event(room_id) do
+  def send_game_lost_event(room_id, updated_results) do
     Phoenix.PubSub.broadcast(
       CodeName.PubSub,
       room_id,
-      {:game_lost}
+      {:game_lost, updated_results: updated_results}
     )
   end
 
-  def send_round_finished_click_event(room_id, player_nickname) do
+  def send_round_finished_event(room_id, updated_results) do
     Phoenix.PubSub.broadcast(
       CodeName.PubSub,
       room_id,
-      {:round_finish_button_click, player_nickname: player_nickname}
+      {:round_finished, updated_results: updated_results}
     )
   end
 
-  def send_card_click_event(room_id, player_nickname, card_index) do
+  def send_code_name_discovered_event(room_id, updated_results) do
     Phoenix.PubSub.broadcast(
       CodeName.PubSub,
       room_id,
-      {:card_click, player: player_nickname, card_index: card_index}
+      {:code_name_discovered, updated_results: updated_results}
     )
   end
 end

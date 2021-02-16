@@ -10,7 +10,6 @@ defmodule CodeNameWeb.HomeLive do
   @impl true
   def handle_event("player-nickname-choice", %{"player_nickname" => player_nickname}, socket) do
     # TODO: handle unicity / id of player nicknames
-    IO.puts(player_nickname)
 
     socket =
       push_redirect(socket,

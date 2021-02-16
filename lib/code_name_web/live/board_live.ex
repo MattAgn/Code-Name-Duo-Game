@@ -41,80 +41,78 @@ defmodule CodeNameWeb.BoardLive do
     {:noreply, socket}
   end
 
+  ########### HANDLE_INFO ###############
   @impl true
-  def handle_info(
-        {:card_click, player: player_nickname, card_index: card_index},
-        socket
-      ) do
+  def handle_info({:round_finished, updated_results: updated_results}, socket) do
+    socket = assign(socket, round: socket.assigns.round + 1, current_results: updated_results)
+
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_info({:game_lost, updated_results: updated_results}, socket) do
+    socket = assign(socket, game_status: "lost", current_results: updated_results)
+
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_info({:code_name_discovered, updated_results: updated_results}, socket) do
+    socket = assign(socket, current_results: updated_results)
+
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_info({:game_won, updated_results: updated_results}, socket) do
+    socket = assign(socket, game_status: "won", current_results: updated_results)
+
+    {:noreply, socket}
+  end
+
+  ########### HANDLE_EVENT ###############
+  @impl true
+  def handle_event("card-click", %{"card-index" => card_index}, socket) do
     prev_result = Enum.at(socket.assigns.current_results, String.to_integer(card_index))
 
     result =
-      get_key_map_for_player(socket, player_nickname)
+      get_key_map_for_player(socket, socket.assigns.player_nickname)
       |> Enum.at(String.to_integer(card_index))
-      |> handle_neutral_result(prev_result, player_nickname)
+      |> handle_neutral_result(prev_result, socket.assigns.player_nickname)
 
-    current_results =
+    updated_results =
       Enum.to_list(socket.assigns.current_results)
       |> List.replace_at(String.to_integer(card_index), result)
 
-    if result === "assassin" do
-      Game.send_game_lost_event(socket.assigns.room_id)
+    cond do
+      Game.is_game_lost_on_card_click(result, socket.assigns.round) ->
+        Game.send_game_lost_event(socket.assigns.room_id, updated_results)
+
+      Game.is_game_won(updated_results) ->
+        Game.send_game_won_event(socket.assigns.room_id, updated_results)
+
+      Game.is_code_name_discovered(result) ->
+        Game.send_code_name_discovered_event(socket.assigns.room_id, updated_results)
+
+      true ->
+        Game.send_round_finished_event(socket.assigns.room_id, updated_results)
     end
-
-    if Game.is_game_won(current_results) do
-      Game.send_game_won_event(socket.assigns.room_id)
-    end
-
-    if String.starts_with?(result, "neutral") do
-      {:noreply,
-       assign(socket, current_results: current_results, round: socket.assigns.round + 1)}
-    else
-      {:noreply, assign(socket, current_results: current_results)}
-    end
-  end
-
-  @impl true
-  def handle_info(
-        {:round_finish_button_click, player_nickname: player_nickname},
-        socket
-      ) do
-    socket = assign(socket, round: socket.assigns.round + 1)
-
-    if socket.assigns.round == 10 do
-      Game.send_game_lost_event(socket.assigns.room_id)
-    end
-
-    {:noreply, socket}
-  end
-
-  @impl true
-  def handle_info({:game_lost}, socket) do
-    socket = assign(socket, game_status: "lost")
-
-    {:noreply, socket}
-  end
-
-  @impl true
-  def handle_info({:game_won}, socket) do
-    socket = assign(socket, game_status: "won")
-
-    {:noreply, socket}
-  end
-
-  @impl true
-  def handle_event("card-click", %{"card-index" => card_index}, socket) do
-    Game.send_card_click_event(socket.assigns.room_id, socket.assigns.player_nickname, card_index)
 
     {:noreply, socket}
   end
 
   @impl true
   def handle_event("finish-round", _, socket) do
-    Game.send_round_finished_click_event(socket.assigns.room_id, socket.assigns.player_nickname)
+    if Game.is_game_lost_on_round_finished_click(socket.assigns.round) do
+      Game.send_game_lost_event(socket.assigns.room_id, socket.assigns.current_results)
+    else
+      Game.send_round_finished_event(socket.assigns.room_id, socket.assigns.current_results)
+    end
 
     {:noreply, socket}
   end
 
+  ############## HELPERS #################
   defp handle_neutral_result(result, previous_result, player_nickname) do
     cond do
       result === "neutral" && String.starts_with?(previous_result, "neutral-") -> "neutral-all"
