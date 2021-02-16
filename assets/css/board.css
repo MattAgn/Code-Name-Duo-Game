@@ -20,6 +20,10 @@
   border-width: 0;
 }
 
+#card[disabled] {
+  opacity: 0.8;
+}
+
 .key-map-row {
   display: flex;
   justify-content: flex-start;
@@ -71,3 +75,4 @@ p {
 .game-end-block > button {
   margin-left: 10vw;
 }
+

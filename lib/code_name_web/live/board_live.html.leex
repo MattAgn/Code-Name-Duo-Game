@@ -21,7 +21,9 @@
     <%= for i <- 0..4 do %>
       <div class="board-row">
         <%= for j <- 0..4 do %>
-          <button id="card" phx-click="card-click" phx-value-card-index="<%= j+i*5 %>"
+          <button id="card"
+                  <%= if (!is_my_turn(assigns)), do: "disabled" %>
+                  phx-click="card-click" phx-value-card-index="<%= j+i*5 %>"
                   class="<%= get_card_color_class(@current_results, j+i*5) %>">
             <%= Enum.at(@words, j+i*5) %>
             <%= raw(get_neutral_card_indicator(Enum.at(@current_results,j+i*5) , @player_nickname)) %>
@@ -56,6 +58,8 @@
 <%= if (@game_status === "ongoing") do %>
   <div class="round-row">
     <p>Round number: <%= @round %> / 9</p>
-    <button phx-click="finish-round">Finish round</button>
+    <button phx-click="finish-round"
+      <%= if (!is_my_turn(assigns)), do: "disabled" %>
+    >Finish round</button>
   </div>
 <% end %>

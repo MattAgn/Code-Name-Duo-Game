@@ -184,10 +184,14 @@ defmodule CodeNameWeb.BoardLive do
   end
 
   defp get_round_indication(socket_assigns) do
-    if socket_assigns.player_nickname === socket_assigns.player_turn do
+    if is_my_turn(socket_assigns) do
       "Your turn to play"
     else
-      "Waiting for other player to finish his round"
+      "Waiting for other player to finish..."
     end
+  end
+
+  defp is_my_turn(socket_assigns) do
+    socket_assigns.player_nickname === socket_assigns.player_turn
   end
 end
