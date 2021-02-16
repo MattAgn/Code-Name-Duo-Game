@@ -61,7 +61,7 @@ defmodule CodeNameWeb.BoardLive do
       Game.send_game_lost_event(socket.assigns.room_id)
     end
 
-    if Enum.count(Enum.filter(current_results, fn x -> x === "code_name" end)) == 15 do
+    if Game.is_game_won(current_results) do
       Game.send_game_won_event(socket.assigns.room_id)
     end
 

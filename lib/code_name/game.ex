@@ -61,6 +61,10 @@ defmodule CodeName.Game do
     }
   end
 
+  def is_game_won(current_results) do
+    Enum.count(Enum.filter(current_results, fn x -> x === "code_name" end)) == 15
+  end
+
   def send_game_won_event(room_id) do
     Phoenix.PubSub.broadcast(
       CodeName.PubSub,
