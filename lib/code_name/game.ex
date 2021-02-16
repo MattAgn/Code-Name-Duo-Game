@@ -60,4 +60,36 @@ defmodule CodeName.Game do
       words: words
     }
   end
+
+  def send_game_won_event(room_id) do
+    Phoenix.PubSub.broadcast(
+      CodeName.PubSub,
+      room_id,
+      {:game_won}
+    )
+  end
+
+  def send_game_lost_event(room_id) do
+    Phoenix.PubSub.broadcast(
+      CodeName.PubSub,
+      room_id,
+      {:game_lost}
+    )
+  end
+
+  def send_round_finished_click_event(room_id, player_nickname) do
+    Phoenix.PubSub.broadcast(
+      CodeName.PubSub,
+      room_id,
+      {:round_finish_button_click, player_nickname: player_nickname}
+    )
+  end
+
+  def send_card_click_event(room_id, player_nickname, card_index) do
+    Phoenix.PubSub.broadcast(
+      CodeName.PubSub,
+      room_id,
+      {:card_click, player: player_nickname, card_index: card_index}
+    )
+  end
 end

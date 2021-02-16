@@ -1,6 +1,7 @@
 defmodule CodeNameWeb.BoardLive do
   use CodeNameWeb, :live_view
   alias CodeName.Rooms
+  alias CodeName.Game
 
   @impl true
   def mount(_params, _session, socket) do
@@ -57,19 +58,11 @@ defmodule CodeNameWeb.BoardLive do
       |> List.replace_at(String.to_integer(card_index), result)
 
     if result === "assassin" do
-      Phoenix.PubSub.broadcast(
-        CodeName.PubSub,
-        socket.assigns.room_id,
-        {:game_lost}
-      )
+      Game.send_game_lost_event(socket.assigns.room_id)
     end
 
     if Enum.count(Enum.filter(current_results, fn x -> x === "code_name" end)) == 15 do
-      Phoenix.PubSub.broadcast(
-        CodeName.PubSub,
-        socket.assigns.room_id,
-        {:game_won}
-      )
+      Game.send_game_won_event(socket.assigns.room_id)
     end
 
     if String.starts_with?(result, "neutral") do
@@ -82,17 +75,13 @@ defmodule CodeNameWeb.BoardLive do
 
   @impl true
   def handle_info(
-        {:round_finish_button_click, player: player_nickname},
+        {:round_finish_button_click, player_nickname: player_nickname},
         socket
       ) do
     socket = assign(socket, round: socket.assigns.round + 1)
 
     if socket.assigns.round == 10 do
-      Phoenix.PubSub.broadcast(
-        CodeName.PubSub,
-        socket.assigns.room_id,
-        {:game_lost}
-      )
+      Game.send_game_lost_event(socket.assigns.room_id)
     end
 
     {:noreply, socket}
@@ -114,22 +103,14 @@ defmodule CodeNameWeb.BoardLive do
 
   @impl true
   def handle_event("card-click", %{"card-index" => card_index}, socket) do
-    Phoenix.PubSub.broadcast(
-      CodeName.PubSub,
-      socket.assigns.room_id,
-      {:card_click, player: socket.assigns.player_nickname, card_index: card_index}
-    )
+    Game.send_card_click_event(socket.assigns.room_id, socket.assigns.player_nickname, card_index)
 
     {:noreply, socket}
   end
 
   @impl true
   def handle_event("finish-round", _, socket) do
-    Phoenix.PubSub.broadcast(
-      CodeName.PubSub,
-      socket.assigns.room_id,
-      {:round_finish_button_click, player: socket.assigns.player_nickname}
-    )
+    Game.send_round_finished_click_event(socket.assigns.room_id, socket.assigns.player_nickname)
 
     {:noreply, socket}
   end
