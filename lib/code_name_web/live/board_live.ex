@@ -13,8 +13,6 @@ defmodule CodeNameWeb.BoardLive do
         %{
           "player_nickname" => player_nickname,
           "room_id" => room_id,
-          "player_1_keymap" => player_1_keymap,
-          "player_2_keymap" => player_2_keymap,
           "player_1" => player_1,
           "player_2" => player_2,
           "player_turn" => player_turn
@@ -22,7 +20,11 @@ defmodule CodeNameWeb.BoardLive do
         _url,
         socket
       ) do
-    words = Rooms.get_room!(String.to_integer(room_id)).words
+    %{
+      words: words,
+      player_1_keymap: player_1_keymap,
+      player_2_keymap: player_2_keymap
+    } = Rooms.get_room!(String.to_integer(room_id))
 
     socket =
       assign(socket,

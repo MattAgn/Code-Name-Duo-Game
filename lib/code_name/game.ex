@@ -38,9 +38,9 @@ defmodule CodeName.Game do
       Enum.to_list(0..24)
       |> Enum.map(fn x ->
         cond do
-          Enum.member?(player_1_assasins_cards, x) -> :assassin
-          Enum.member?(player_1_code_name_cards, x) -> :code_name
-          true -> :neutral
+          Enum.member?(player_1_assasins_cards, x) -> "assassin"
+          Enum.member?(player_1_code_name_cards, x) -> "code_name"
+          true -> "neutral"
         end
       end)
 
@@ -48,9 +48,9 @@ defmodule CodeName.Game do
       Enum.to_list(0..24)
       |> Enum.map(fn x ->
         cond do
-          Enum.member?(player_2_assasins_cards, x) -> :assassin
-          Enum.member?(player_2_code_name_cards, x) -> :code_name
-          true -> :neutral
+          Enum.member?(player_2_assasins_cards, x) -> "assassin"
+          Enum.member?(player_2_code_name_cards, x) -> "code_name"
+          true -> "neutral"
         end
       end)
 
