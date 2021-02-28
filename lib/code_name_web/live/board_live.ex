@@ -13,8 +13,8 @@ defmodule CodeNameWeb.BoardLive do
         %{
           "player_nickname" => player_nickname,
           "room_id" => room_id,
-          "player_1_key_map" => player_1_key_map,
-          "player_2_key_map" => player_2_key_map,
+          "player_1_keymap" => player_1_keymap,
+          "player_2_keymap" => player_2_keymap,
           "player_1" => player_1,
           "player_2" => player_2,
           "player_turn" => player_turn
@@ -30,8 +30,8 @@ defmodule CodeNameWeb.BoardLive do
         room_id: room_id,
         player_2: player_2,
         player_1: player_1,
-        player_1_key_map: player_1_key_map,
-        player_2_key_map: player_2_key_map,
+        player_1_keymap: player_1_keymap,
+        player_2_keymap: player_2_keymap,
         current_results: Enum.to_list(0..24) |> Enum.map(fn _ -> "hidden" end),
         words: words,
         round: 0,
@@ -89,7 +89,7 @@ defmodule CodeNameWeb.BoardLive do
     prev_result = Enum.at(socket.assigns.current_results, String.to_integer(card_index))
 
     result =
-      get_key_map_for_player(socket, socket.assigns.player_nickname)
+      get_keymap_for_player(socket, socket.assigns.player_nickname)
       |> Enum.at(String.to_integer(card_index))
       |> handle_neutral_result(prev_result, socket.assigns.player_nickname)
 
@@ -134,27 +134,27 @@ defmodule CodeNameWeb.BoardLive do
     end
   end
 
-  defp get_key_map_for_player(socket, player_nickname) do
+  defp get_keymap_for_player(socket, player_nickname) do
     if player_nickname === socket.assigns.player_nickname do
-      get_my_partner_key_map(socket.assigns)
+      get_my_partner_keymap(socket.assigns)
     else
-      get_my_key_map(socket.assigns)
+      get_my_keymap(socket.assigns)
     end
   end
 
-  defp get_my_key_map(socket_assigns) do
+  defp get_my_keymap(socket_assigns) do
     if socket_assigns.player_nickname === socket_assigns.player_1 do
-      socket_assigns.player_1_key_map
+      socket_assigns.player_1_keymap
     else
-      socket_assigns.player_2_key_map
+      socket_assigns.player_2_keymap
     end
   end
 
-  defp get_my_partner_key_map(socket_assigns) do
+  defp get_my_partner_keymap(socket_assigns) do
     if socket_assigns.player_nickname === socket_assigns.player_1 do
-      socket_assigns.player_2_key_map
+      socket_assigns.player_2_keymap
     else
-      socket_assigns.player_1_key_map
+      socket_assigns.player_1_keymap
     end
   end
 
@@ -166,10 +166,10 @@ defmodule CodeNameWeb.BoardLive do
     end
   end
 
-  defp get_key_map_square_color_class(socket_assigns, card_index) do
+  defp get_keymap_square_color_class(socket_assigns, card_index) do
     cond do
-      Enum.at(get_my_key_map(socket_assigns), card_index) === "assassin" -> "black"
-      Enum.at(get_my_key_map(socket_assigns), card_index) === "code_name" -> "green"
+      Enum.at(get_my_keymap(socket_assigns), card_index) === "assassin" -> "black"
+      Enum.at(get_my_keymap(socket_assigns), card_index) === "code_name" -> "green"
       true -> "grey"
     end
   end

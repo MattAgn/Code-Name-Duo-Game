@@ -39,10 +39,10 @@
       <div class="key-map-row">
         <%= for j <- 0..4 do %>
           <div class="key-map-square
-            <%= get_key_map_square_color_class(assigns, j+i*5) %>
+            <%= get_keymap_square_color_class(assigns, j+i*5) %>
             ">
-            <%= if Enum.at(get_my_key_map(assigns), j+i*5) === "assassin", do: "X" %>
-            <%= if Enum.at(get_my_key_map(assigns), j+i*5) === "code_name", do: "O" %>
+            <%= if Enum.at(get_my_keymap(assigns), j+i*5) === "assassin", do: "X" %>
+            <%= if Enum.at(get_my_keymap(assigns), j+i*5) === "code_name", do: "O" %>
           </div>
         <% end %>
       </div>

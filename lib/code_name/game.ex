@@ -34,7 +34,7 @@ defmodule CodeName.Game do
     player_1_code_name_cards = common_code_names ++ player_1_unique_code_names
     player_2_code_name_cards = common_code_names ++ player_2_unique_code_names
 
-    player_1_key_map =
+    player_1_keymap =
       Enum.to_list(0..24)
       |> Enum.map(fn x ->
         cond do
@@ -44,7 +44,7 @@ defmodule CodeName.Game do
         end
       end)
 
-    player_2_key_map =
+    player_2_keymap =
       Enum.to_list(0..24)
       |> Enum.map(fn x ->
         cond do
@@ -55,8 +55,8 @@ defmodule CodeName.Game do
       end)
 
     %{
-      player_1_key_map: player_1_key_map,
-      player_2_key_map: player_2_key_map,
+      player_1_keymap: player_1_keymap,
+      player_2_keymap: player_2_keymap,
       words: words
     }
   end
