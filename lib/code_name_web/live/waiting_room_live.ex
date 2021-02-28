@@ -36,7 +36,7 @@ defmodule CodeNameWeb.WaitingRoomLive do
         :all_players,
         fn all_players ->
           if new_player_nickname != socket.assigns.player_nickname,
-            do: [all_players | new_player_nickname]
+            do: [new_player_nickname | all_players]
         end
       )
 
@@ -70,7 +70,6 @@ defmodule CodeNameWeb.WaitingRoomLive do
             room_id: socket.assigns.room_id,
             player_1_key_map: player_1_key_map,
             player_2_key_map: player_2_key_map,
-            words: words,
             player_1: player_1,
             player_2: player_2,
             player_turn: player_1
