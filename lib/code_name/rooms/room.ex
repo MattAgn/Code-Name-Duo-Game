@@ -4,6 +4,7 @@ defmodule CodeName.Rooms.Room do
 
   schema "rooms" do
     field :players, {:array, :string}
+    field :words, {:array, :string}
 
     timestamps()
   end
@@ -11,7 +12,6 @@ defmodule CodeName.Rooms.Room do
   @doc false
   def changeset(room, attrs) do
     room
-    |> cast(attrs, [:players])
-    |> validate_required([:players])
+    |> cast(attrs, [:players, :words])
   end
 end

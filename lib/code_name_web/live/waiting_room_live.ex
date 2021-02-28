@@ -48,7 +48,6 @@ defmodule CodeNameWeb.WaitingRoomLive do
         {:game_started,
          player_1_key_map: player_1_key_map,
          player_2_key_map: player_2_key_map,
-         words: words,
          player_1: player_1,
          player_2: player_2},
         socket
@@ -57,7 +56,6 @@ defmodule CodeNameWeb.WaitingRoomLive do
       assign(socket,
         player_1_key_map: player_1_key_map,
         player_2_key_map: player_2_key_map,
-        words: words,
         player_1: player_1,
         player_2: player_2
       )
@@ -87,13 +85,16 @@ defmodule CodeNameWeb.WaitingRoomLive do
     %{player_1_key_map: player_1_key_map, player_2_key_map: player_2_key_map, words: words} =
       Game.generate_board()
 
+    room = Rooms.get_room!(String.to_integer(socket.assigns.room_id))
+
+    Rooms.update_room(room, %{words: words})
+
     Phoenix.PubSub.broadcast(
       CodeName.PubSub,
       socket.assigns.room_id,
       {:game_started,
        player_1_key_map: player_1_key_map,
        player_2_key_map: player_2_key_map,
-       words: words,
        player_1: Enum.at(socket.assigns.all_players, 0),
        player_2: Enum.at(socket.assigns.all_players, 1)}
     )
