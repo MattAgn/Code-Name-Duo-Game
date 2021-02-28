@@ -1,14 +1,14 @@
-<h2>Create a new game</h2>
-<button phx-click="create-room">Create new room</button>
+<h2>Créer une nouvelle partie</h2>
+<button phx-click="create-room">Créer une nouvelle partie</button>
 
-<h2>Join waiting player</h2>
+<h2>Rejoindre une partie existante</h2>
 
 <form phx-submit="room-choice">
   <input type="text" name="room_id" value="<%= @room_id %>"
-          placeholder="Enter token here"
+          placeholder="Entrer le numéro de la partie"
           autofocus autocomplete="off" />
 
   <button type="submit">
-    Validate
+    Valider
   </button>
 </form>

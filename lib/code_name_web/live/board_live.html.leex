@@ -1,14 +1,14 @@
 <%= if (@game_status === "lost") do %>
   <div class="game-end-block">
     <h1>Vous avez perdu :'(</h1>
-    <button>Restart game</button>
+    <button>Redémarrer une partie</button>
   </div>
 <% end %>
 
 <%= if (@game_status === "won") do %>
   <div class="game-end-block">
     <h1>Vous avez gagné :D !!!</h1>
-    <button>Restart game</button>
+    <button>Redémarrer une partie</button>
   </div>
 <% end %>
 
@@ -57,9 +57,9 @@
 
 <%= if (@game_status === "ongoing") do %>
   <div class="round-row">
-    <p>Round number: <%= @round %> / 9</p>
+    <p>Numéro du round : <%= @round %> / 9</p>
     <button phx-click="finish-round"
       <%= if (!is_my_turn(assigns)), do: "disabled" %>
-    >Finish round</button>
+    >Finir le round</button>
   </div>
 <% end %>

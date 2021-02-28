@@ -1,8 +1,8 @@
-<h1>Waiting room</h1>
+<h1>Salle d'attente</h1>
 
-<p>Share this token with your friend so he can join the game: <%= @room_id %></p>
+<p>Donne le numéro de la partie à tes coéquipiers : <%= @room_id %></p>
 
-<h3>Players present in the room:</h3>
+<h3>Joueurs présents dans la partie :</h3>
 
 <ul>
 <%= for player_nickname <- @all_players do %>
@@ -12,4 +12,4 @@
 
 <br/>
 <br/>
-<button phx-click="start-game">Start the game</button>
+<button phx-click="start-game">Démarrer le jeu</button>
