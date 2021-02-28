@@ -185,9 +185,9 @@ defmodule CodeNameWeb.BoardLive do
 
   defp get_round_indication(socket_assigns) do
     if is_my_turn(socket_assigns) do
-      "&#128994; &nbsp; Your turn to play"
+      "&#128270; &nbsp; Find and select the words corresponding to the given clue"
     else
-      "&#128308; &nbsp; Waiting for other player to finish..."
+      "&#128172; &nbsp; Give a clue to your partner"
     end
   end
 
