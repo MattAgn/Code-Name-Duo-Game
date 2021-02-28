@@ -17,8 +17,7 @@ defmodule CodeNameWeb.Router do
   scope "/", CodeNameWeb do
     pipe_through :browser
 
-    live "/", PageLive, :index
-    live "/home", HomeLive
+    live "/", HomeLive, :index
     live "/board", BoardLive
     live "/rooms", RoomsLive
     live "/waiting-room", WaitingRoomLive
