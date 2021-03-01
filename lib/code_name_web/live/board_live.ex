@@ -25,7 +25,7 @@ defmodule CodeNameWeb.BoardLive do
       player_1_keymap: player_1_keymap,
       player_2_keymap: player_2_keymap,
       current_results: current_results
-    } = Rooms.get_room!(String.to_integer(room_id))
+    } = Rooms.get_room!(room_id)
 
     socket =
       assign(socket,

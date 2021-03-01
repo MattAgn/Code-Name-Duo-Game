@@ -52,7 +52,7 @@ defmodule CodeNameWeb.RoomsLive do
           )
       )
 
-    room = Rooms.get_room!(String.to_integer(room_id))
+    room = Rooms.get_room!(room_id)
 
     Rooms.update_room(room, %{
       players: [socket.assigns.player_nickname | room.players]

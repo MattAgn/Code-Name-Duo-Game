@@ -28,14 +28,14 @@ defmodule CodeName.Rooms do
 
   ## Examples
 
-      iex> get_room!(123)
+      iex> get_room!("123")
       %Room{}
 
-      iex> get_room!(456)
+      iex> get_room!("456")
       ** (Ecto.NoResultsError)
 
   """
-  def get_room!(id), do: Repo.get!(Room, id)
+  def get_room!(id), do: Repo.get!(Room, String.to_integer(id))
 
   @doc """
   Creates a room.

@@ -14,7 +14,7 @@ defmodule CodeNameWeb.WaitingRoomLive do
         _url,
         socket
       ) do
-    players = Rooms.get_room!(String.to_integer(room_id)).players
+    players = Rooms.get_room!(room_id).players
 
     socket =
       assign(socket,
@@ -75,7 +75,7 @@ defmodule CodeNameWeb.WaitingRoomLive do
   def handle_event("start-game", _, socket) do
     board_data = Game.generate_board()
 
-    room = Rooms.get_room!(String.to_integer(socket.assigns.room_id))
+    room = Rooms.get_room!(socket.assigns.room_id)
 
     Rooms.update_room(room, board_data)
 
