@@ -23,7 +23,8 @@ defmodule CodeNameWeb.BoardLive do
     %{
       words: words,
       player_1_keymap: player_1_keymap,
-      player_2_keymap: player_2_keymap
+      player_2_keymap: player_2_keymap,
+      current_results: current_results
     } = Rooms.get_room!(String.to_integer(room_id))
 
     socket =
@@ -34,7 +35,7 @@ defmodule CodeNameWeb.BoardLive do
         player_1: player_1,
         player_1_keymap: player_1_keymap,
         player_2_keymap: player_2_keymap,
-        current_results: Enum.to_list(0..24) |> Enum.map(fn _ -> "hidden" end),
+        current_results: current_results,
         words: words,
         round: 0,
         game_status: "ongoing",
