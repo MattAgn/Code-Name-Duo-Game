@@ -101,4 +101,9 @@ defmodule CodeName.Rooms do
   def change_room(%Room{} = room, attrs \\ %{}) do
     Room.changeset(room, attrs)
   end
+
+  def update_current_results(room_id, current_results) do
+    room = get_room!(room_id)
+    update_room(room, %{current_results: current_results})
+  end
 end
