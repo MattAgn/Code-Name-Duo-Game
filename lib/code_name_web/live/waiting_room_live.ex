@@ -75,9 +75,7 @@ defmodule CodeNameWeb.WaitingRoomLive do
   def handle_event("start-game", _, socket) do
     board_data = Game.generate_board()
 
-    room = Rooms.get_room!(socket.assigns.room_id)
-
-    Rooms.update_room(room, board_data)
+    Rooms.update_room_by_id(socket.assigns.room_id, board_data)
 
     Phoenix.PubSub.broadcast(
       CodeName.PubSub,

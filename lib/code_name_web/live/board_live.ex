@@ -114,7 +114,7 @@ defmodule CodeNameWeb.BoardLive do
         Game.send_round_finished_event(socket.assigns.room_id, updated_results)
     end
 
-    Rooms.update_current_results(socket.assigns.room_id, updated_results)
+    Rooms.update_room_by_id(socket.assigns.room_id, %{current_results: updated_results})
 
     {:noreply, socket}
   end
