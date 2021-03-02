@@ -63,8 +63,7 @@ defmodule CodeNameWeb.WaitingRoomLive do
             player_nickname: socket.assigns.player_nickname,
             room_id: socket.assigns.room_id,
             player_1: player_1,
-            player_2: player_2,
-            player_turn: player_1
+            player_2: player_2
           )
       )
 
@@ -75,14 +74,17 @@ defmodule CodeNameWeb.WaitingRoomLive do
   def handle_event("start-game", _, socket) do
     board_data = Game.generate_board()
 
+    player_1 = Enum.at(socket.assigns.all_players, 0)
+    player_2 = Enum.at(socket.assigns.all_players, 1)
+
     Rooms.update_room_by_id(socket.assigns.room_id, board_data)
+    # TODO: store board data and player_turn at the same time
+    Rooms.update_room_by_id(socket.assigns.room_id, %{player_turn: player_1})
 
     Phoenix.PubSub.broadcast(
       CodeName.PubSub,
       socket.assigns.room_id,
-      {:game_started,
-       player_1: Enum.at(socket.assigns.all_players, 0),
-       player_2: Enum.at(socket.assigns.all_players, 1)}
+      {:game_started, player_1: player_1, player_2: player_2}
     )
 
     {:noreply, socket}

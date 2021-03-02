@@ -9,6 +9,9 @@ defmodule CodeName.Rooms.Room do
     field :player_2_keymap, {:array, :string}
     field :current_results, {:array, :string}
     field :current_round, :integer
+    # nickname of the player who has to play
+    # TODO: use 1 or 2 instead, via enum
+    field :player_turn, :string
 
     timestamps()
   end
@@ -22,7 +25,8 @@ defmodule CodeName.Rooms.Room do
       :player_2_keymap,
       :player_1_keymap,
       :current_results,
-      :current_round
+      :current_round,
+      :player_turn
     ])
   end
 end

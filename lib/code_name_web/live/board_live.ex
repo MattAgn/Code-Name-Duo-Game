@@ -14,8 +14,7 @@ defmodule CodeNameWeb.BoardLive do
           "player_nickname" => player_nickname,
           "room_id" => room_id,
           "player_1" => player_1,
-          "player_2" => player_2,
-          "player_turn" => player_turn
+          "player_2" => player_2
         },
         _url,
         socket
@@ -25,7 +24,8 @@ defmodule CodeNameWeb.BoardLive do
       player_1_keymap: player_1_keymap,
       player_2_keymap: player_2_keymap,
       current_results: current_results,
-      current_round: current_round
+      current_round: current_round,
+      player_turn: player_turn
     } = Rooms.get_room!(room_id)
 
     socket =
@@ -39,6 +39,7 @@ defmodule CodeNameWeb.BoardLive do
         current_results: current_results,
         words: words,
         current_round: current_round,
+        # TODO: save game status in db as well
         game_status: "ongoing",
         player_turn: player_turn
       )
@@ -115,7 +116,8 @@ defmodule CodeNameWeb.BoardLive do
         Game.send_round_finished_event(socket.assigns.room_id, updated_results)
 
         Rooms.update_room_by_id(socket.assigns.room_id, %{
-          current_round: socket.assigns.current_round + 1
+          current_round: socket.assigns.current_round + 1,
+          player_turn: get_player_turn(socket)
         })
     end
 
@@ -126,15 +128,16 @@ defmodule CodeNameWeb.BoardLive do
 
   @impl true
   def handle_event("finish-round", _, socket) do
+    Rooms.update_room_by_id(socket.assigns.room_id, %{
+      current_round: socket.assigns.current_round + 1,
+      player_turn: get_player_turn(socket)
+    })
+
     if Game.is_game_lost_on_round_finished_click(socket.assigns.current_round) do
       Game.send_game_lost_event(socket.assigns.room_id, socket.assigns.current_results)
     else
       Game.send_round_finished_event(socket.assigns.room_id, socket.assigns.current_results)
     end
-
-    Rooms.update_room_by_id(socket.assigns.room_id, %{
-      current_round: socket.assigns.current_round + 1
-    })
 
     {:noreply, socket}
   end
@@ -208,5 +211,13 @@ defmodule CodeNameWeb.BoardLive do
 
   defp is_my_turn(socket_assigns) do
     socket_assigns.player_nickname === socket_assigns.player_turn
+  end
+
+  defp get_player_turn(socket) do
+    if socket.assigns.player_1 === socket.assigns.player_turn do
+      socket.assigns.player_2
+    else
+      socket.assigns.player_1
+    end
   end
 end
