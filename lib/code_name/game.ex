@@ -58,16 +58,18 @@ defmodule CodeName.Game do
       player_1_keymap: player_1_keymap,
       player_2_keymap: player_2_keymap,
       words: words,
-      current_results: Enum.to_list(0..24) |> Enum.map(fn _ -> "hidden" end)
+      current_results: Enum.to_list(0..24) |> Enum.map(fn _ -> "hidden" end),
+      current_round: 0
     }
   end
 
-  def is_game_lost_on_round_finished_click(round) do
-    round >= 9
+  def is_game_lost_on_round_finished_click(current_round) do
+    current_round >= 9
   end
 
-  def is_game_lost_on_card_click(card_result, round) do
-    card_result === "assassin" || (String.starts_with?(card_result, "neutral") && round == 9)
+  def is_game_lost_on_card_click(card_result, current_round) do
+    card_result === "assassin" ||
+      (String.starts_with?(card_result, "neutral") && current_round == 9)
   end
 
   def is_game_won(current_results) do

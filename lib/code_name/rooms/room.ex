@@ -8,6 +8,7 @@ defmodule CodeName.Rooms.Room do
     field :player_1_keymap, {:array, :string}
     field :player_2_keymap, {:array, :string}
     field :current_results, {:array, :string}
+    field :current_round, :integer
 
     timestamps()
   end
@@ -15,6 +16,13 @@ defmodule CodeName.Rooms.Room do
   @doc false
   def changeset(room, attrs) do
     room
-    |> cast(attrs, [:players, :words, :player_2_keymap, :player_1_keymap, :current_results])
+    |> cast(attrs, [
+      :players,
+      :words,
+      :player_2_keymap,
+      :player_1_keymap,
+      :current_results,
+      :current_round
+    ])
   end
 end
