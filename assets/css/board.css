@@ -1,7 +1,7 @@
 .board {
   display: flex;
   justify-content: space-between;
-  margin-top: 10vh;
+  margin-top: 6vh;
 }
 
 .board-cards {
@@ -16,7 +16,7 @@
 
 #card, #card:focus, #card:hover {
   width: 13vw;
-  height: 10vh;
+  height: 13vh;
   border-width: 0;
   white-space: break-spaces;
   padding: 0 1.0rem;
@@ -42,6 +42,18 @@
   align-items: center;
   justify-content: center;
   display: flex;
+}
+
+.right-colum {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.round-block {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 .black {

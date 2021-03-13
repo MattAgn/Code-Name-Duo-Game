@@ -32,6 +32,7 @@
   </div>
 
 
+<div class="right-colum">
   <div>
     <%= for i <- 0..4 do %>
       <div class="key-map-row">
@@ -46,18 +47,17 @@
       </div>
     <% end %>
   </div>
-</div>
 
-<br/>
-<br/>
-<br/>
-
-
-<%= if (@game_status === "ongoing") do %>
-  <div class="current-round-row">
-    <p>Numéro du round : <%= @current_round %> / 9</p>
-    <button phx-click="finish-round"
-      <%= if (!is_my_turn(assigns)), do: "disabled" %>
-    >Finir le round</button>
+  <br/>
+  <%= if (@game_status === "ongoing") do %>
+    <div class="round-block">
+      <p>Numéro du round : <%= @current_round %> / 9</p>
+      <br/>
+      <button phx-click="finish-round"
+        <%= if (!is_my_turn(assigns)), do: "disabled" %>
+      >Finir le round</button>
+    </div>
+  <% end %>
   </div>
-<% end %>
+
+</div>

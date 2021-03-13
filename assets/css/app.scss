@@ -5,6 +5,9 @@
 
 html {
   background-color: #131516;
+  @media only screen and (max-width: 800px) {
+    font-size: 45%;
+  }
 }
 
 h1, h2, h3, p, span, div, input {
