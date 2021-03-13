@@ -18,6 +18,9 @@
   width: 13vw;
   height: 10vh;
   border-width: 0;
+  white-space: break-spaces;
+  padding: 0 1.0rem;
+  line-height: 2.0rem;
 }
 
 #card[disabled] {

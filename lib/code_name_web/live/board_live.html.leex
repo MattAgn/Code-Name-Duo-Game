@@ -24,10 +24,8 @@
           <button id="card"
                   <%= if (!is_my_turn(assigns)), do: "disabled" %>
                   phx-click="card-click" phx-value-card-index="<%= j+i*5 %>"
-                  class="<%= get_card_color_class(@current_results, j+i*5) %>">
-            <%= Enum.at(@words, j+i*5) %>
-            <%= raw(get_neutral_card_indicator(Enum.at(@current_results,j+i*5) , @player_nickname)) %>
-          </button>
+                  class="<%= get_card_color_class(@current_results, j+i*5) %>"
+                  ><%= Enum.at(@words, j+i*5) %><%= raw(get_neutral_card_indicator(Enum.at(@current_results,j+i*5) , @player_nickname)) %></button>
         <% end %>
       </div>
     <% end %>
