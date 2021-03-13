@@ -12,6 +12,7 @@ defmodule CodeName.Rooms.Room do
     # nickname of the player who has to play
     # TODO: use 1 or 2 instead, via enum
     field :player_turn, :string
+    field :game_status, :string
 
     timestamps()
   end
@@ -26,7 +27,8 @@ defmodule CodeName.Rooms.Room do
       :player_1_keymap,
       :current_results,
       :current_round,
-      :player_turn
+      :player_turn,
+      :game_status
     ])
   end
 end

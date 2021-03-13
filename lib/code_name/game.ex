@@ -59,7 +59,8 @@ defmodule CodeName.Game do
       player_2_keymap: player_2_keymap,
       words: words,
       current_results: Enum.to_list(0..24) |> Enum.map(fn _ -> "hidden" end),
-      current_round: 0
+      current_round: 0,
+      game_status: "ongoing"
     }
   end
 

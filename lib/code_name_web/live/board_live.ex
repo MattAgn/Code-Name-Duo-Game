@@ -25,7 +25,8 @@ defmodule CodeNameWeb.BoardLive do
       player_2_keymap: player_2_keymap,
       current_results: current_results,
       current_round: current_round,
-      player_turn: player_turn
+      player_turn: player_turn,
+      game_status: game_status
     } = Rooms.get_room!(room_id)
 
     socket =
@@ -39,8 +40,7 @@ defmodule CodeNameWeb.BoardLive do
         current_results: current_results,
         words: words,
         current_round: current_round,
-        # TODO: save game status in db as well
-        game_status: "ongoing",
+        game_status: game_status,
         player_turn: player_turn
       )
 
@@ -96,7 +96,8 @@ defmodule CodeNameWeb.BoardLive do
       player_2_keymap: player_2_keymap,
       current_results: current_results,
       current_round: current_round,
-      player_turn: player_turn
+      player_turn: player_turn,
+      game_status: game_status
     } = Rooms.get_room!(socket.assigns.room_id)
 
     socket =
@@ -106,10 +107,11 @@ defmodule CodeNameWeb.BoardLive do
         current_results: current_results,
         words: words,
         current_round: current_round,
-        # TODO: save game status in db as well
-        game_status: "ongoing",
+        game_status: game_status,
         player_turn: player_turn
       )
+
+    IO.inspect(game_status)
 
     {:noreply, socket}
   end
@@ -131,9 +133,11 @@ defmodule CodeNameWeb.BoardLive do
     cond do
       Game.is_game_lost_on_card_click(result, socket.assigns.current_round) ->
         Game.send_game_lost_event(socket.assigns.room_id, updated_results)
+        Rooms.update_room_by_id(socket.assigns.room_id, %{game_status: "lost"})
 
       Game.is_game_won(updated_results) ->
         Game.send_game_won_event(socket.assigns.room_id, updated_results)
+        Rooms.update_room_by_id(socket.assigns.room_id, %{game_status: "won"})
 
       Game.is_code_name_discovered(result) ->
         Game.send_code_name_discovered_event(socket.assigns.room_id, updated_results)
@@ -160,6 +164,7 @@ defmodule CodeNameWeb.BoardLive do
     })
 
     if Game.is_game_lost_on_round_finished_click(socket.assigns.current_round) do
+      Rooms.update_room_by_id(socket.assigns.room_id, %{game_status: "lost"})
       Game.send_game_lost_event(socket.assigns.room_id, socket.assigns.current_results)
     else
       Game.send_round_finished_event(socket.assigns.room_id, socket.assigns.current_results)
