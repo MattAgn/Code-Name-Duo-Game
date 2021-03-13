@@ -51,7 +51,7 @@
   <br/>
   <%= if (@game_status === "ongoing") do %>
     <div class="round-block">
-      <p>Numéro du round : <%= @current_round %> / 9</p>
+      <p>Tours restants : <%= 9 - @current_round %></p>
       <br/>
       <button phx-click="finish-round"
         <%= if (!is_my_turn(assigns)), do: "disabled" %>
