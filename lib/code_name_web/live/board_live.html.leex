@@ -1,13 +1,13 @@
 <%= if (@game_status === "lost") do %>
   <div class="game-end-block">
-    <h1>Vous avez perdu &#128557</h1>
+    <h3>Vous avez perdu &#128557</h3>
     <button phx-click="restart-game">Redémarrer une partie</button>
   </div>
 <% end %>
 
 <%= if (@game_status === "won") do %>
   <div class="game-end-block">
-    <h1>Vous avez gagné &#128513 !!!</h1>
+    <h3>Vous avez gagné &#128513 !!!</h3>
     <button phx-click="restart-game">Redémarrer une partie</button>
   </div>
 <% end %>
