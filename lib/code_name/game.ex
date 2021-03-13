@@ -112,4 +112,12 @@ defmodule CodeName.Game do
       {:code_name_discovered, updated_results: updated_results}
     )
   end
+
+  def send_game_restarted_event(room_id) do
+    Phoenix.PubSub.broadcast(
+      CodeName.PubSub,
+      room_id,
+      {:game_restarted}
+    )
+  end
 end

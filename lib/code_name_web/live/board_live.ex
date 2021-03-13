@@ -88,6 +88,32 @@ defmodule CodeNameWeb.BoardLive do
     {:noreply, socket}
   end
 
+  @impl true
+  def handle_info({:game_restarted}, socket) do
+    %{
+      words: words,
+      player_1_keymap: player_1_keymap,
+      player_2_keymap: player_2_keymap,
+      current_results: current_results,
+      current_round: current_round,
+      player_turn: player_turn
+    } = Rooms.get_room!(socket.assigns.room_id)
+
+    socket =
+      assign(socket,
+        player_1_keymap: player_1_keymap,
+        player_2_keymap: player_2_keymap,
+        current_results: current_results,
+        words: words,
+        current_round: current_round,
+        # TODO: save game status in db as well
+        game_status: "ongoing",
+        player_turn: player_turn
+      )
+
+    {:noreply, socket}
+  end
+
   ########### HANDLE_EVENT ###############
   @impl true
   def handle_event("card-click", %{"card-index" => card_index}, socket) do
@@ -138,6 +164,17 @@ defmodule CodeNameWeb.BoardLive do
     else
       Game.send_round_finished_event(socket.assigns.room_id, socket.assigns.current_results)
     end
+
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event("restart-game", _, socket) do
+    board_data = Game.generate_board()
+
+    Rooms.update_room_by_id(socket.assigns.room_id, board_data)
+
+    Game.send_game_restarted_event(socket.assigns.room_id)
 
     {:noreply, socket}
   end
