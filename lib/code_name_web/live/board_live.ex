@@ -262,4 +262,11 @@ defmodule CodeNameWeb.BoardLive do
       socket.assigns.player_1
     end
   end
+
+  defp get_remaining_code_names_to_find(current_results) do
+    number_of_found_code_names =
+      Enum.filter(current_results, fn result -> result === "code_name" end) |> Enum.count()
+
+    15 - number_of_found_code_names
+  end
 end

@@ -51,6 +51,7 @@
   <br/>
   <%= if (@game_status === "ongoing") do %>
     <div class="round-block">
+      <p>Mots restants : <%= get_remaining_code_names_to_find(@current_results) %></p>
       <p>Tours restants : <%= 9 - @current_round %></p>
       <br/>
       <button phx-click="finish-round"
