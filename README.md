@@ -1,5 +1,9 @@
 # CodeName
 
+## Description
+
+This is a [code name duo](https://www.amazon.fr/iello-Codenames-Duo-dambiance-51472/dp/B076X5VSYM/ref=sr_1_2?adgrpid=58959740871&dib=eyJ2IjoiMSJ9._XnNYphYt_BKherWF2Y4Zd6vlyXRtezvMsnQ5DQWKmKdxu1tIEAy3SOLxMqnnc3aZnhDG8RuF4qEqBIQWQEaKPhOCPEqOZdzb1B1_XlSiQsX757J2HRPHKjfwS7fOD500u-C_h87ANDRI_juoBFcL2wlhRl4pEO9Vn8JakTjHzK4Gs8s1NBEtTrwQTtIO22iIlJDsg9-Pf6LaRQfQlvgm6-NIuGTjvbFPKFETnJ_IAZtX84Z-tfoqGXhp4pnXVIGwIbN8MpaCr3dLW2pJ48i3BiRS7ju5b1HJxdUNikRdNM.PmeyNvYXXHHlNFn8V9u7vCfmpwKh45Sb-ajg-z4mVZQ&dib_tag=se&hvadid=601278808023&hvdev=c&hvlocphy=9111032&hvnetw=g&hvqmt=e&hvrand=5109963394490193346&hvtargid=kwd-399128526398&hydadcr=7712_2269579&keywords=code+name+duo&nsdOptOutParam=true&qid=1733899621&sr=8-2) app I built to try out Elixir and the phoenix framework. It is not live anymore.
+
 ## Development
 To start your Phoenix server:
 
